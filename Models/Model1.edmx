@@ -1,0 +1,690 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ReconcileDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CustomerMaster">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="LegalAddress" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="SearchKey" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Region" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="VATRegistrationNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Tel" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="Mobile" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="Fax" Type="varchar" MaxLength="16" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="TradingPartner" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="F_identity" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusData" Type="tinyint" Nullable="false" />
+          <Property Name="Encryptkey" Type="varchar" MaxLength="450" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerOrder">
+          <Key>
+            <PropertyRef Name="F_identity" />
+          </Key>
+          <Property Name="F_identity" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
+          <Property Name="BookingDate" Type="datetime" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="CustomerID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="MerchantID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="VinID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="PaymentMethod" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="StatusData" Type="tinyint" Nullable="false" />
+          <Property Name="Encryptkey" Type="varchar" MaxLength="450" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceKey" />
+          </Key>
+          <Property Name="InvoiceKey" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="PaidDate" Type="datetime" />
+          <Property Name="CustomerID" Type="varchar" MaxLength="64" />
+          <Property Name="CusName" Type="nvarchar" MaxLength="64" />
+          <Property Name="CusCom" Type="nvarchar" MaxLength="160" />
+          <Property Name="CusAddress" Type="nvarchar" MaxLength="255" />
+          <Property Name="CusPhone" Type="varchar" MaxLength="20" />
+          <Property Name="CusTaxCode" Type="varchar" MaxLength="50" />
+          <Property Name="PaymentMethod" Type="varchar" MaxLength="64" />
+          <Property Name="GrossValue" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="VatAmount0" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="GrossValue0" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="VatAmount5" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="GrossValue5" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="VatAmount10" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="GrossValue10" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="Total" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="DiscountAmount" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="VATAmount" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="Amount" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="AmountInWords" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="ArisingDate" Type="datetime" />
+          <Property Name="ErrorCode" Type="int" />
+          <Property Name="Pattern" Type="varchar" MaxLength="50" />
+          <Property Name="Serial1" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="VDCKey" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="InvoiceProduction">
+          <Key>
+            <PropertyRef Name="InvoiceProductID" />
+          </Key>
+          <Property Name="InvoiceKey" Type="int" Nullable="false" />
+          <Property Name="InvoiceProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReconcileKey" Type="int" Nullable="false" />
+          <Property Name="VinID" Type="int" Nullable="false" />
+          <Property Name="ProdName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProdUnit" Type="nvarchar" MaxLength="32" />
+          <Property Name="ProdQuantity" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="ProdPrice" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="VATRate" Type="int" Nullable="false" />
+          <Property Name="VATAmount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="AmountICLVAT" Type="decimal" Precision="20" Scale="2" />
+        </EntityType>
+        <EntityType Name="Reconcile">
+          <Key>
+            <PropertyRef Name="OrderNo" />
+            <PropertyRef Name="VinID" />
+          </Key>
+          <Property Name="ReconcileKey" Type="int" Nullable="false" />
+          <Property Name="PaidDate" Type="datetime" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="VinID" Type="int" Nullable="false" />
+          <Property Name="ProdPrice" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="ProdType" Type="int" Nullable="false" />
+          <Property Name="ProdName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="VATRate" Type="int" Nullable="false" />
+          <Property Name="VATAmount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="DiscountAmount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="AmountBeforeVAT" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="InterestAmount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="MerchantID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="MerchantName" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="ReturnAmount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="NotDeliveryAmount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="ReturnMerchantAmount" Type="decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VinID_Service">
+          <Key>
+            <PropertyRef Name="VinID" />
+          </Key>
+          <Property Name="VinID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="MerchantID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="F_identity" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusData" Type="tinyint" Nullable="false" />
+          <Property Name="Encryptkey" Type="varchar" MaxLength="450" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VinID_Trading">
+          <Key>
+            <PropertyRef Name="VinID" />
+          </Key>
+          <Property Name="VinID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="MerchantID" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+          <Property Name="F_identity" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusData" Type="tinyint" Nullable="false" />
+          <Property Name="Encryptkey" Type="varchar" MaxLength="450" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CustomerOrder_CustomerMaster">
+          <End Role="CustomerMaster" Type="Self.CustomerMaster" Multiplicity="1" />
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerMaster">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="CustomerOrder">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrder_Reconcile_2">
+          <End Role="Reconcile" Type="Self.Reconcile" Multiplicity="1" />
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reconcile">
+              <PropertyRef Name="OrderNo" />
+              <PropertyRef Name="VinID" />
+            </Principal>
+            <Dependent Role="CustomerOrder">
+              <PropertyRef Name="OrderNo" />
+              <PropertyRef Name="VinID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceProduction_InvoiceKey">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceProduction" Type="Self.InvoiceProduction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceKey" />
+            </Principal>
+            <Dependent Role="InvoiceProduction">
+              <PropertyRef Name="InvoiceKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reconcile_VinID_Service">
+          <End Role="VinID_Service" Type="Self.VinID_Service" Multiplicity="1" />
+          <End Role="Reconcile" Type="Self.Reconcile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VinID_Service">
+              <PropertyRef Name="VinID" />
+            </Principal>
+            <Dependent Role="Reconcile">
+              <PropertyRef Name="VinID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reconcile_VinID_Trading">
+          <End Role="VinID_Trading" Type="Self.VinID_Trading" Multiplicity="1" />
+          <End Role="Reconcile" Type="Self.Reconcile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VinID_Trading">
+              <PropertyRef Name="VinID" />
+            </Principal>
+            <Dependent Role="Reconcile">
+              <PropertyRef Name="VinID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReconcileDBModelStoreContainer">
+          <EntitySet Name="CustomerMaster" EntityType="Self.CustomerMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerOrder" EntityType="Self.CustomerOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceProduction" EntityType="Self.InvoiceProduction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reconcile" EntityType="Self.Reconcile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VinID_Service" EntityType="Self.VinID_Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VinID_Trading" EntityType="Self.VinID_Trading" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CustomerOrder_CustomerMaster" Association="Self.FK_CustomerOrder_CustomerMaster">
+            <End Role="CustomerMaster" EntitySet="CustomerMaster" />
+            <End Role="CustomerOrder" EntitySet="CustomerOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrder_Reconcile_2" Association="Self.FK_CustomerOrder_Reconcile_2">
+            <End Role="Reconcile" EntitySet="Reconcile" />
+            <End Role="CustomerOrder" EntitySet="CustomerOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceProduction_InvoiceKey" Association="Self.FK_InvoiceProduction_InvoiceKey">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvoiceProduction" EntitySet="InvoiceProduction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reconcile_VinID_Service" Association="Self.FK_Reconcile_VinID_Service">
+            <End Role="VinID_Service" EntitySet="VinID_Service" />
+            <End Role="Reconcile" EntitySet="Reconcile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reconcile_VinID_Trading" Association="Self.FK_Reconcile_VinID_Trading">
+            <End Role="VinID_Trading" EntitySet="VinID_Trading" />
+            <End Role="Reconcile" EntitySet="Reconcile" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ReconcileDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CustomerMaster">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LegalAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SearchKey" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Region" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VATRegistrationNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tel" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mobile" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fax" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TradingPartner" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="F_identity" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusData" Type="Byte" Nullable="false" />
+          <Property Name="Encryptkey" Type="String" MaxLength="450" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CustomerOrders" Relationship="Self.FK_CustomerOrder_CustomerMaster" FromRole="CustomerMaster" ToRole="CustomerOrder" />
+        </EntityType>
+        <EntityType Name="CustomerOrder">
+          <Key>
+            <PropertyRef Name="F_identity" />
+          </Key>
+          <Property Name="F_identity" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BookingDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderNo" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CustomerID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MerchantID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VinID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusData" Type="Byte" Nullable="false" />
+          <Property Name="Encryptkey" Type="String" MaxLength="450" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CustomerMaster" Relationship="Self.FK_CustomerOrder_CustomerMaster" FromRole="CustomerOrder" ToRole="CustomerMaster" />
+          <NavigationProperty Name="Reconcile" Relationship="Self.FK_CustomerOrder_Reconcile_2" FromRole="CustomerOrder" ToRole="Reconcile" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceKey" />
+          </Key>
+          <Property Name="InvoiceKey" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="PaidDate" Type="DateTime" Precision="3" />
+          <Property Name="CustomerID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="CusName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="CusCom" Type="String" MaxLength="160" FixedLength="false" Unicode="true" />
+          <Property Name="CusAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CusPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CusTaxCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentMethod" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="GrossValue" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="VatAmount0" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="GrossValue0" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="VatAmount5" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="GrossValue5" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="VatAmount10" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="GrossValue10" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="Total" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="DiscountAmount" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="VATAmount" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="AmountInWords" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="ArisingDate" Type="DateTime" Precision="3" />
+          <Property Name="ErrorCode" Type="Int32" />
+          <Property Name="Pattern" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Serial1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Updated" Type="DateTime" Precision="3" />
+          <Property Name="VDCKey" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="InvoiceProductions" Relationship="Self.FK_InvoiceProduction_InvoiceKey" FromRole="Invoice" ToRole="InvoiceProduction" />
+        </EntityType>
+        <EntityType Name="InvoiceProduction">
+          <Key>
+            <PropertyRef Name="InvoiceProductID" />
+          </Key>
+          <Property Name="InvoiceKey" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReconcileKey" Type="Int32" Nullable="false" />
+          <Property Name="VinID" Type="Int32" Nullable="false" />
+          <Property Name="ProdName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProdUnit" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="ProdQuantity" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="ProdPrice" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="VATRate" Type="Int32" Nullable="false" />
+          <Property Name="VATAmount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="AmountICLVAT" Type="Decimal" Precision="20" Scale="2" />
+          <NavigationProperty Name="Invoice" Relationship="Self.FK_InvoiceProduction_InvoiceKey" FromRole="InvoiceProduction" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="Reconcile">
+          <Key>
+            <PropertyRef Name="OrderNo" />
+            <PropertyRef Name="VinID" />
+          </Key>
+          <Property Name="ReconcileKey" Type="Int32" Nullable="false" />
+          <Property Name="PaidDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OrderNo" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VinID" Type="Int32" Nullable="false" />
+          <Property Name="ProdPrice" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="ProdType" Type="Int32" Nullable="false" />
+          <Property Name="ProdName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VATRate" Type="Int32" Nullable="false" />
+          <Property Name="VATAmount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="DiscountAmount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="AmountBeforeVAT" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="InterestAmount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="MerchantID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MerchantName" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="ReturnAmount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="NotDeliveryAmount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="ReturnMerchantAmount" Type="Decimal" Precision="20" Scale="2" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CustomerOrders" Relationship="Self.FK_CustomerOrder_Reconcile_2" FromRole="Reconcile" ToRole="CustomerOrder" />
+          <NavigationProperty Name="VinID_Service" Relationship="Self.FK_Reconcile_VinID_Service" FromRole="Reconcile" ToRole="VinID_Service" />
+          <NavigationProperty Name="VinID_Trading" Relationship="Self.FK_Reconcile_VinID_Trading" FromRole="Reconcile" ToRole="VinID_Trading" />
+        </EntityType>
+        <EntityType Name="VinID_Service">
+          <Key>
+            <PropertyRef Name="VinID" />
+          </Key>
+          <Property Name="VinID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MerchantID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Unit" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="F_identity" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusData" Type="Byte" Nullable="false" />
+          <Property Name="Encryptkey" Type="String" MaxLength="450" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Reconciles" Relationship="Self.FK_Reconcile_VinID_Service" FromRole="VinID_Service" ToRole="Reconcile" />
+        </EntityType>
+        <EntityType Name="VinID_Trading">
+          <Key>
+            <PropertyRef Name="VinID" />
+          </Key>
+          <Property Name="VinID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MerchantID" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Unit" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="F_identity" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusData" Type="Byte" Nullable="false" />
+          <Property Name="Encryptkey" Type="String" MaxLength="450" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Reconciles" Relationship="Self.FK_Reconcile_VinID_Trading" FromRole="VinID_Trading" ToRole="Reconcile" />
+        </EntityType>
+        <Association Name="FK_CustomerOrder_CustomerMaster">
+          <End Role="CustomerMaster" Type="Self.CustomerMaster" Multiplicity="1" />
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerMaster">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="CustomerOrder">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerOrder_Reconcile_2">
+          <End Role="Reconcile" Type="Self.Reconcile" Multiplicity="1" />
+          <End Role="CustomerOrder" Type="Self.CustomerOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reconcile">
+              <PropertyRef Name="OrderNo" />
+              <PropertyRef Name="VinID" />
+            </Principal>
+            <Dependent Role="CustomerOrder">
+              <PropertyRef Name="OrderNo" />
+              <PropertyRef Name="VinID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceProduction_InvoiceKey">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvoiceProduction" Type="Self.InvoiceProduction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvoiceKey" />
+            </Principal>
+            <Dependent Role="InvoiceProduction">
+              <PropertyRef Name="InvoiceKey" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reconcile_VinID_Service">
+          <End Role="VinID_Service" Type="Self.VinID_Service" Multiplicity="1" />
+          <End Role="Reconcile" Type="Self.Reconcile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VinID_Service">
+              <PropertyRef Name="VinID" />
+            </Principal>
+            <Dependent Role="Reconcile">
+              <PropertyRef Name="VinID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reconcile_VinID_Trading">
+          <End Role="VinID_Trading" Type="Self.VinID_Trading" Multiplicity="1" />
+          <End Role="Reconcile" Type="Self.Reconcile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VinID_Trading">
+              <PropertyRef Name="VinID" />
+            </Principal>
+            <Dependent Role="Reconcile">
+              <PropertyRef Name="VinID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ReconcileDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CustomerMasters" EntityType="Self.CustomerMaster" />
+          <EntitySet Name="CustomerOrders" EntityType="Self.CustomerOrder" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <EntitySet Name="InvoiceProductions" EntityType="Self.InvoiceProduction" />
+          <EntitySet Name="Reconciles" EntityType="Self.Reconcile" />
+          <EntitySet Name="VinID_Service" EntityType="Self.VinID_Service" />
+          <EntitySet Name="VinID_Trading" EntityType="Self.VinID_Trading" />
+          <AssociationSet Name="FK_CustomerOrder_CustomerMaster" Association="Self.FK_CustomerOrder_CustomerMaster">
+            <End Role="CustomerMaster" EntitySet="CustomerMasters" />
+            <End Role="CustomerOrder" EntitySet="CustomerOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerOrder_Reconcile_2" Association="Self.FK_CustomerOrder_Reconcile_2">
+            <End Role="Reconcile" EntitySet="Reconciles" />
+            <End Role="CustomerOrder" EntitySet="CustomerOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceProduction_InvoiceKey" Association="Self.FK_InvoiceProduction_InvoiceKey">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvoiceProduction" EntitySet="InvoiceProductions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reconcile_VinID_Service" Association="Self.FK_Reconcile_VinID_Service">
+            <End Role="VinID_Service" EntitySet="VinID_Service" />
+            <End Role="Reconcile" EntitySet="Reconciles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reconcile_VinID_Trading" Association="Self.FK_Reconcile_VinID_Trading">
+            <End Role="VinID_Trading" EntitySet="VinID_Trading" />
+            <End Role="Reconcile" EntitySet="Reconciles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ReconcileDBModelStoreContainer" CdmEntityContainer="ReconcileDBEntities1">
+          <EntitySetMapping Name="CustomerMasters">
+            <EntityTypeMapping TypeName="ReconcileDBModel.CustomerMaster">
+              <MappingFragment StoreEntitySet="CustomerMaster">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="LegalAddress" ColumnName="LegalAddress" />
+                <ScalarProperty Name="SearchKey" ColumnName="SearchKey" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="VATRegistrationNo" ColumnName="VATRegistrationNo" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TradingPartner" ColumnName="TradingPartner" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="F_identity" ColumnName="F_identity" />
+                <ScalarProperty Name="StatusData" ColumnName="StatusData" />
+                <ScalarProperty Name="Encryptkey" ColumnName="Encryptkey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerOrders">
+            <EntityTypeMapping TypeName="ReconcileDBModel.CustomerOrder">
+              <MappingFragment StoreEntitySet="CustomerOrder">
+                <ScalarProperty Name="F_identity" ColumnName="F_identity" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="MerchantID" ColumnName="MerchantID" />
+                <ScalarProperty Name="VinID" ColumnName="VinID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="StatusData" ColumnName="StatusData" />
+                <ScalarProperty Name="Encryptkey" ColumnName="Encryptkey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="ReconcileDBModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="InvoiceKey" ColumnName="InvoiceKey" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CusName" ColumnName="CusName" />
+                <ScalarProperty Name="CusCom" ColumnName="CusCom" />
+                <ScalarProperty Name="CusAddress" ColumnName="CusAddress" />
+                <ScalarProperty Name="CusPhone" ColumnName="CusPhone" />
+                <ScalarProperty Name="CusTaxCode" ColumnName="CusTaxCode" />
+                <ScalarProperty Name="PaymentMethod" ColumnName="PaymentMethod" />
+                <ScalarProperty Name="GrossValue" ColumnName="GrossValue" />
+                <ScalarProperty Name="VatAmount0" ColumnName="VatAmount0" />
+                <ScalarProperty Name="GrossValue0" ColumnName="GrossValue0" />
+                <ScalarProperty Name="VatAmount5" ColumnName="VatAmount5" />
+                <ScalarProperty Name="GrossValue5" ColumnName="GrossValue5" />
+                <ScalarProperty Name="VatAmount10" ColumnName="VatAmount10" />
+                <ScalarProperty Name="GrossValue10" ColumnName="GrossValue10" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AmountInWords" ColumnName="AmountInWords" />
+                <ScalarProperty Name="ArisingDate" ColumnName="ArisingDate" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+                <ScalarProperty Name="Pattern" ColumnName="Pattern" />
+                <ScalarProperty Name="Serial1" ColumnName="Serial1" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="VDCKey" ColumnName="VDCKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceProductions">
+            <EntityTypeMapping TypeName="ReconcileDBModel.InvoiceProduction">
+              <MappingFragment StoreEntitySet="InvoiceProduction">
+                <ScalarProperty Name="InvoiceKey" ColumnName="InvoiceKey" />
+                <ScalarProperty Name="InvoiceProductID" ColumnName="InvoiceProductID" />
+                <ScalarProperty Name="ReconcileKey" ColumnName="ReconcileKey" />
+                <ScalarProperty Name="VinID" ColumnName="VinID" />
+                <ScalarProperty Name="ProdName" ColumnName="ProdName" />
+                <ScalarProperty Name="ProdUnit" ColumnName="ProdUnit" />
+                <ScalarProperty Name="ProdQuantity" ColumnName="ProdQuantity" />
+                <ScalarProperty Name="ProdPrice" ColumnName="ProdPrice" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="VATRate" ColumnName="VATRate" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AmountICLVAT" ColumnName="AmountICLVAT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reconciles">
+            <EntityTypeMapping TypeName="ReconcileDBModel.Reconcile">
+              <MappingFragment StoreEntitySet="Reconcile">
+                <ScalarProperty Name="ReconcileKey" ColumnName="ReconcileKey" />
+                <ScalarProperty Name="PaidDate" ColumnName="PaidDate" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="VinID" ColumnName="VinID" />
+                <ScalarProperty Name="ProdPrice" ColumnName="ProdPrice" />
+                <ScalarProperty Name="ProdType" ColumnName="ProdType" />
+                <ScalarProperty Name="ProdName" ColumnName="ProdName" />
+                <ScalarProperty Name="VATRate" ColumnName="VATRate" />
+                <ScalarProperty Name="VATAmount" ColumnName="VATAmount" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="AmountBeforeVAT" ColumnName="AmountBeforeVAT" />
+                <ScalarProperty Name="InterestAmount" ColumnName="InterestAmount" />
+                <ScalarProperty Name="MerchantID" ColumnName="MerchantID" />
+                <ScalarProperty Name="MerchantName" ColumnName="MerchantName" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ReturnAmount" ColumnName="ReturnAmount" />
+                <ScalarProperty Name="NotDeliveryAmount" ColumnName="NotDeliveryAmount" />
+                <ScalarProperty Name="ReturnMerchantAmount" ColumnName="ReturnMerchantAmount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VinID_Service">
+            <EntityTypeMapping TypeName="ReconcileDBModel.VinID_Service">
+              <MappingFragment StoreEntitySet="VinID_Service">
+                <ScalarProperty Name="VinID" ColumnName="VinID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MerchantID" ColumnName="MerchantID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="F_identity" ColumnName="F_identity" />
+                <ScalarProperty Name="StatusData" ColumnName="StatusData" />
+                <ScalarProperty Name="Encryptkey" ColumnName="Encryptkey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VinID_Trading">
+            <EntityTypeMapping TypeName="ReconcileDBModel.VinID_Trading">
+              <MappingFragment StoreEntitySet="VinID_Trading">
+                <ScalarProperty Name="VinID" ColumnName="VinID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MerchantID" ColumnName="MerchantID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="F_identity" ColumnName="F_identity" />
+                <ScalarProperty Name="StatusData" ColumnName="StatusData" />
+                <ScalarProperty Name="Encryptkey" ColumnName="Encryptkey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
