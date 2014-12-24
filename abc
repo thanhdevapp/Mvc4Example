@@ -1,7 +1,0 @@
-SELECT        dbo.Reconcile.ReconcileKey, dbo.Reconcile.PaidDate, dbo.Reconcile.OrderNo, dbo.Reconcile.VinID, dbo.Reconcile.ProdPrice, dbo.Reconcile.ProdType, 
-                         dbo.Reconcile.ProdName, dbo.Reconcile.VATRate, dbo.Reconcile.VATAmount, dbo.Reconcile.DiscountAmount, dbo.Reconcile.Quantity, 
-                         dbo.Reconcile.AmountBeforeVAT, dbo.Reconcile.InterestAmount, dbo.Reconcile.MerchantID, dbo.Reconcile.MerchantName, dbo.Reconcile.Amount, 
-                         dbo.Reconcile.ReturnAmount, dbo.Reconcile.NotDeliveryAmount, dbo.Reconcile.ReturnMerchantAmount, dbo.Reconcile.Status, dbo.VCustomerOrder.CustomerID, 
-                         dbo.VCustomerOrder.CustomerName
-FROM            dbo.Reconcile INNER JOIN
-                         dbo.VCustomerOrder ON dbo.Reconcile.OrderNo = dbo.VCustomerOrder.OrderNo
