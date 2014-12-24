@@ -1,0 +1,18 @@
+﻿@import "bootstrap-datetimepicker.min.css";
+@import "bootstrap-tagsinput.css";
+
+button.close {
+    font-size: 20px !important;
+}
+
+/*fix border radius*/
+.navbar {
+    border-radius: 0 !important;
+    width: 100%;
+    max-width: 1920px;
+}
+/*fix width*/
+.navbar-right {
+    float: right !important;
+    margin-right: 0 !important;
+}

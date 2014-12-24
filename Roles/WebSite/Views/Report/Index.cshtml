@@ -1,0 +1,477 @@
+﻿@using System.Activities.Statements
+@using System.Globalization
+@using System.Runtime.Versioning
+@using ServiceStack
+@using VinEcom.Invoices.Web.Controllers
+@model List<VinEcom.Invoices.Library.Model.Invoice>
+@{
+    ViewBag.Title = "Invoice Reports";
+    var listChecked = new List<string>();
+    if (Session["list"] != null)
+    {
+        listChecked = new ReconcileController().BuidArrayFromString(Session["list"].ToString());
+    }
+    int pageIndex;
+    int.TryParse(Request.QueryString["pageIndex"], out pageIndex);
+    if (pageIndex == 0)
+    {
+        pageIndex = 1;
+    }
+}
+
+<form action="@Url.Action("Index", "Report")">
+    <input type="hidden" id="columnfilter" name="columnfilter" value="" />
+    <input type="hidden" id="orderbycolumn" name="orderbycolumn" value="OrderDate" />
+    <input type="hidden" id="optionorder" name="optionorder" value="" />
+    <input type="hidden" id="mathfilter" name="mathfilter" value="" />
+    <div class="row" style="margin-bottom: 10px; padding: 0; margin-top: 30px;">
+        <div class="col-md-2">
+            <input name="orderNos" placeholder="Mã đơn hàng" type="text" class="form-control" />
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 10px; padding: 0">
+        <div class="col-md-2">
+            <input name="merchantIds" placeholder="Mã nhà cung cấp" type="text" class="form-control" />
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 10px; padding: 0">
+        <div class="col-md-2">
+            <input name="customerIds" placeholder="Mã khách hàng" type="text" class="form-control" />
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-1">
+        </div>
+        @*    <div class="col-md-3">
+                <form action="@Url.Action("Index", "Reconcile")">
+                    <div class="input-group search-form-table">
+                        <input value="@Request.Params["keyword"]" placeholder="Tìm kiếm" type="text" name="keyword" class="form-control">
+                        <input type="hidden" value="@Request.Params["columnsearch"]" name="columnsearch" id="columnsearch"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Tìm kiếm</button>
+                        </span>
+
+                    </div>
+                    <!-- /input-group -->
+                </form>
+            </div>*@
+        <div class="col-md-3">
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 10px; padding: 0">
+        <div class="col-md-2">
+            <div class="input-group date" data-date-format="DD/MM/YYYY" id="datetimepickerfrom">
+                <input name="fromDate" placeholder="Từ ngày" type="text" class="form-control" />
+                <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group date" id="datetimepickerend">
+                <input name="toDate" placeholder="Đến ngày" data-date-format="DD/MM/YYYY" type="text" class="form-control" />
+                <span class="input-group-addon"><span class="glyphicon-calendar glyphicon"></span></span>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-danger" type="submit">Tìm kiếm</button>
+        </div>
+        <div class="col-md-3">
+        </div>
+    </div>
+</form>
+<div class="row" style="margin-bottom: 10px; padding: 0; margin-top: 30px">
+    <div class="col-md-12">
+        <strong>BÁO CÁO THỐNG KÊ Từ ngày @ViewBag.DateFrom Đến ngày @ViewBag.DateFrom</strong>
+    </div>
+</div>
+<p>Tổng số hóa đơn thành công: @ViewBag.SuccessInvoiceExport</p>
+<p>Tổng số hóa đơn xuất lỗi: @ViewBag.ErrorInvoiceExport</p>
+<div class="row" style="margin-top: 30px">
+    <div class="col-md-3">
+        <a id="sortasc" class="btn btn-default">A-Z</a>
+        <a id="sortdesc" class="btn btn-default">Z-A</a>
+    </div>
+    <div class="col-md-5">
+        <div class="input-group">
+            <input type="text" placeholder="Nhập điều kiện lọc" name="keyword" id="keyword" class="form-control" />
+            <div class="input-group-btn" id="select-filter">
+                <a id="filter-by" href="#" style="border-radius: 0!important" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Chọn điều kiện lọc <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Lớn hơn</a></li>
+                    <li><a href="#">Nhỏ hơn</a></li>
+                    <li><a href="#">Chứa giá trị</a></li>
+                    <li><a href="#">Bằng giá trị hiện tại</a></li>
+                </ul>
+                <button class="btn btn-danger" type="submit">Lọc</button>
+                <button style="margin-left: 3px;" class="btn btn-danger" type="submit">Lọc ngoại trừ</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="gr-right">
+            <a href="@Url.Action("ExportInvoice", "Reconcile")" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">Xuất hóa đơn</a>
+            <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">In</a>
+            <a class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">Kết xuất</a>
+        </div>
+    </div>
+</div>
+<p style="color: black">@ViewBag.Msg</p>
+<div class="table-responsive">
+    <table id="report-table" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style="width: 50px!important">
+                    STT
+                </th>
+                <th column-selected="yes" id="PaidDate" style="text-align: center; text-align: center; color: white; background: rgb(229, 28, 35);">
+                    Ngày phát hành HĐ
+                </th>
+                <th id="ReconcileKey" style="width: 100px; text-align: center">
+                    Ký hiệu HĐ
+                </th>
+                <th id="OrderNo" style="width: 100px; text-align: center">
+                    Số HĐ
+                </th>
+                <th>Ngày nhận doanh thu</th>
+                <th id="PaidDate">
+                    Thành tiền
+                </th>
+                <th id="DiscountAmount">
+                    Chiết khấu, KM
+                </th>
+                <th>
+                    Thuế suất
+                </th>
+                <th>
+                    Thuế GTGT
+                </th>
+                <th>Cộng</th>
+                <th>Mã tài khoản xuất</th>
+                <th style="width: 100px!important">
+                    Trạng thái
+                </th>
+                <th style="width: 70px!important">
+                    Link
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int count = 0;
+            }
+            @foreach (var item in Model)
+            {
+                count++;
+                <tr id="@item.OrderNo" data-toggle="collapse" data-target=".row1">
+                    <td>
+                        @count
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaidDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaidDate)
+                    </td>
+                    <td>
+                        @String.Format(CultureInfo.GetCultureInfo("vi-VN"), "{0:C0}", item.Amount)
+                    </td>
+                    <td>
+                        @String.Format(CultureInfo.GetCultureInfo("vi-VN"), "{0:C0}", item.DiscountAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VATAmount)
+                    </td>
+                    <td>
+                        @String.Format(CultureInfo.GetCultureInfo("vi-VN"), "{0:C0}", item.VATAmount)
+                    </td>
+                    <td>
+                        @String.Format(CultureInfo.GetCultureInfo("vi-VN"), "{0:C0}", item.Amount)
+                    </td>
+                    <td></td>
+                    <td>
+                        <span class="label label-success">Thành công</span>
+                    </td>
+                    <td>
+                        <a target="_blank" href="http://transfer/VDCKey.pdf">Tải về</a>
+                    </td>
+                    @*                <td class="status-active">
+                            @switch (item.Status)
+                            {
+                                case 0:
+                                <span class="badge badge-primary">Yêu cầu mới</span>
+                                    break;
+                                case 1:
+                                <span class="badge badge-black">Đang xử lý</span>
+                                    break;
+                            }
+                        </td>*@
+                    @* <td>*@
+                    @*<div class="btn-group">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    Thao tác
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="@Url.Action("Edit", new { id = item.ProductCategoriesID })"><span class="icon-pencil3"></span> Sửa</a></li>
+                                    <li><a onclick="confirmDelete('@item.ProductCategoriesID')" href="javasript:void(0)"><span class="icon-trash5"></span> Xóa</a></li>
+                                </ul>
+                            </div>
+                        </div>*@
+                    @*                    <div class="group-action">
+                            <a data-toggle="tooltip" data-placement="top" title="Chi tiết" href="@Url.Action("Details", new { id = item.OrderId })"><span class="icon-eye5 color-edit"></span></a>
+                            <a data-toggle="tooltip" data-placement="top" title="Sửa" href="@Url.Action("Edit", new { id = item.OrderId })"><span class="icon-pencil3 color-edit"></span></a>
+                            <a data-toggle="tooltip" data-placement="top" title="Xóa" onclick="confirmDelete('@item.OrderId')" href="javasript:void(0)"><span class="icon-trash5 color-delete"></span></a>
+                        </div>*@
+                    @* </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@{
+    var tRVD = new RouteValueDictionary(ViewContext.RouteData.Values);
+    foreach (string key in Request.QueryString.Keys)
+    {
+        if (key != "pageIndex")
+        {
+            tRVD[key] = Request.QueryString[key].ToString();
+        }
+    }
+
+}
+@{
+    <div class="table-footer">
+        <div class="form-group pull-left" style="margin-bottom: 10px;">
+            @*<a title="Thêm" data-placement="bottom" class="btn btn-sm btn-info" href="@Url.Action("Create", "ProductCategory")"><span class="icon-add-to-list"></span> Thêm</a>*@
+            @*<a title="Sửa" data-placement="bottom" class="btn btn-sm btn-default" href="@Url.Action("Edit", "Order")"><span class="icon-pencil3"></span> Sửa</a>
+                <a title="Xóa" data-placement="bottom" class="btn btn-sm btn-danger" href="@Url.Action("Delete", "Order")"><span class="icon-trash5"></span> Xóa</a>*@
+        </div>
+        <ul class="pagination pull-right">
+            @{
+                tRVD.Remove("pageIndex");
+                tRVD.Add("pageIndex", 1);
+            }
+            <li class="previous"><a href="@Url.Action("Index", tRVD)">&larr; Đầu trang</a></li>
+            @if (pageIndex == 1)
+            {
+                <li class="disabled"><a href="javascript:void(0)">«</a></li>
+            }
+            else
+            {
+                tRVD.Remove("pageIndex");
+                tRVD.Add("pageIndex", pageIndex - 1);
+                <li><a href="@Url.Action("Index", tRVD)">«</a></li>
+
+            }
+            @for (int i = 1; i <= ViewBag.PageListCount + 1; i++)
+            {
+                tRVD.Remove("pageIndex");
+                tRVD.Add("pageIndex", i);
+                <li><a title="Trang @i" href="@Url.Action("Index", tRVD)">@i <span class="sr-only">(current)</span></a></li>
+            }
+            @if ((ViewBag.PageListCount + 1) == pageIndex)
+            {
+                <li class="disabled"><a href="javascript:void(0)">»</a></li>
+            }
+            else
+            {
+                tRVD.Remove("pageIndex");
+                tRVD.Add("pageIndex", pageIndex + 1);
+                <li><a href="@Url.Action("Index", tRVD)">»</a></li>
+            }
+            @{
+                tRVD.Remove("pageIndex");
+                tRVD.Add("pageIndex", ViewBag.PageListCount + 1);
+            }
+            <li class="next"><a href="@Url.Action("Index", tRVD)">&rarr; Cuối trang</a></li>
+        </ul>
+    </div>
+}
+
+
+<input type="text" class="form-control" id="datetimepicker2">
+@section scripts
+{
+    <script>
+        $('#datetimepickerfrom').datetimepicker({ pickTime: false });
+        $('#datetimepickerend').datetimepicker({ pickTime: false });
+        //select check box all in page
+        $("th.select-checkbox input").on('click', function () {
+            var str = "";
+            var tempforremove = "";
+            //check all checkbox td
+            if ($(this).is(':checked')) {
+                $("td.select-checkbox input").prop("checked", true);
+
+            } else {
+
+                $("td.select-checkbox input").prop("checked", false);
+            }
+            $(".select-checkbox input:checked").each(function () {
+                str += $(this).val() + ',';
+            });
+            //check and call method
+            if ($(this).is(':checked')) {
+                saveStateCheckBox(str, 'add'); //add to session
+                str = tempforremove;
+            } else {
+                saveStateCheckBox(tempforremove, 'remove'); //remove frm session
+            }
+        });
+
+        //event filter
+        var urlCurrent = window.location.href;
+        $("#sortasc").on('click', function () {
+            buidArray('orderbycolumn', $("#orderbycolumn").val());
+            window.location = '/Report?' + buidArray('optionorder', 'asc');
+        });
+
+        $("#sortdesc").on('click', function () {
+            buidArray('orderbycolumn', $("#orderbycolumn").val());
+            window.location = '/Report?' + buidArray('optionorder', 'desc');
+        });
+
+        function buidArray(param, newvalue) {
+            /*
+             * queryParameters -> handles the query string parameters
+             * queryString -> the query string without the fist '?' character
+             * re -> the regular expression
+             * m -> holds the string matching the regular expression
+             */
+            var queryParameters = {}, queryString = location.search.substring(1),
+                re = /([^&=]+)=([^&]*)/g, m;
+
+            // Creates a map with the query string parameters
+            while (m = re.exec(queryString)) {
+                queryParameters[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+            }
+            // Add new parameters or update existing ones
+            queryParameters[param] = newvalue;
+            /*
+             * Replace the query portion of the URL.
+             * jQuery.param() -> create a serialized representation of an array or
+             *     object, suitable for use in a URL query string or Ajax request.
+             */
+            return $.param(queryParameters); // Causes page to reload
+        }
+
+        function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam) {
+                    return sParameterName[1];
+                } else {
+                    return null;
+                }
+            }
+        }
+
+        function appendForFilter(param, doact) {
+            var urlRequest = 'http://' + location.host + '/Reconcile/CheckedList';
+            $.ajax({
+                type: "GET",
+                url: urlRequest,
+                data: { listArray: param, doact: doact },
+                dataType: "text",
+                success: function (response) {
+                    //alert(response);
+                },
+                error: function () {
+                    alert('error');
+                }
+
+            });
+        }
+
+
+        //select single checkbox
+        $("td.select-checkbox input").on('click', function () {
+            //check and call method
+            if ($(this).is(':checked')) {
+                saveStateCheckBox($(this).val(), 'add'); //add to session
+            } else {
+                saveStateCheckBox($(this).val(), 'remove'); //remove frm session
+            }
+        });
+
+        function saveStateCheckBox(param, doact) {
+            var urlRequest = 'http://' + location.host + '/Reconcile/CheckedList';
+            $.ajax({
+                type: "GET",
+                url: urlRequest,
+                data: { listArray: param, doact: doact },
+                dataType: "text",
+                success: function (response) {
+                    //alert(response);
+                },
+                error: function () {
+                    alert('error');
+                }
+
+            });
+        }
+
+        //highlight select
+        $("th").on('click', function () {
+            //clean
+            $("th").each(function () {
+                $(this).removeAttr('column-selected');
+                $(this).css({ "background": "white", "color": "#666666" });
+            });
+            $(this).attr('column-selected', 'yes');
+            $(this).css({ "background": "#e51c23", "color": "white" });
+            $("#columnfilter").val($(this).attr('id'));
+            $("#orderbycolumn").val($(this).attr('id'));
+            buidArray('columnfilter', 'orderbycolumn');
+            window.location = '/Report?' + buidArray('orderbycolumn', $(this).attr('id'));
+
+            //if ($(this).attr('column-selected') == 'yes') {
+            //    $(this).attr('column-selected', 'no');
+            //    $(this).css({ "background": "white", "color": "black" });
+            //} else {
+            //    $(this).attr('column-selected', 'yes');
+            //    $(this).css({ "background": "seagreen", "color": "white" });
+            //}
+        });
+        $("#select-filter .dropdown-menu li a").on('click', function () {
+            $("#select-filter a#filter-by").html($(this).text() + ' <span class="caret"></span>');
+        });
+
+    </script>
+}
+<style>
+    table#reconcile th:hover {
+        cursor: pointer;
+        background-color: #e51c23 !important;
+        color: white !important;
+    }
+
+    div#gr-right a {
+        float: right;
+        margin-left: 3px;
+    }
+
+    table .collapse.in {
+        display: table-row;
+    }
+</style>

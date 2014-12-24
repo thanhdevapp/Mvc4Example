@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Demo!</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @*setup bootstrap*@
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/jasny-bootstrap/css/jasny-bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/jasny-bootstrap/css/navmenu.css" rel="stylesheet" />
+</head>
+<body>
+
+    @*<div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Demo!com</a>
+            </div>
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="@Url.Action("Index","Reconcile")">Reconcile</a></li>
+                    <li><a href="@Url.Action("Index","Report")">Report</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li style="margin-right: -20px;"><a href="#">Hi,</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Profile</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Exit</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>*@
+
+    <div class="navmenu navmenu-default navmenu-fixed-left offcanvas">
+        <a class="navmenu-brand" href="#">Project name</a>
+        <ul class="nav navmenu-nav">
+            <li><a href="../navmenu/">Slide in</a></li>
+            <li class="active"><a href="./">Push</a></li>
+            <li><a href="../navmenu-reveal/">Reveal</a></li>
+            <li><a href="../navbar-offcanvas/">Off canvas navbar</a></li>
+        </ul>
+        <ul class="nav navmenu-nav">
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li><a href="#">Link</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu navmenu-nav">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Exit</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @*setup bootstrap*@
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Content/jasny-bootstrap/js/jasny-bootstrap.js"></script>
+    <script src="~/Scripts/boot-app.js"></script>
+    <script src="~/Scripts/bootstrap-moment.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/bootstrap-tagsinput.js"></script>
+    @*	<script src="http://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+        <script src="http://cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.js"></script>*@
+    @RenderSection("styles", false)
+    @RenderSection("scripts", false)
+</body>
+</html>
